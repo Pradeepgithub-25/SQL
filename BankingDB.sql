@@ -6,24 +6,26 @@ select database ();
 
 use BankingDB;
 
-create table customers(
-customerID int primary key,
-First_name varchar(25),
-Last_name Varchar(25),
-Email varchar(100),
-Phone int
+CREATE TABLE customers (
+    customerID INT PRIMARY KEY,
+    First_name VARCHAR(25),
+    Last_name VARCHAR(25),
+    Email VARCHAR(100),
+    Phone INT
 );
 
 alter table customers add DateofBirth Date;
 
 alter table customers add unique (email);
 
+alter table customers modify phone varchar(20);
 
+select * from customers;
 
-create table accounts(
-AccountID int,
-Account_type varchar(20),
-Balance decimal(10,2)
+CREATE TABLE accounts (
+    AccountID INT,
+    Account_type VARCHAR(20),
+    Balance DECIMAL(10 , 2 )
 );
 
 ALTER TABLE Accounts ADD CONSTRAINT chk_MinBalance
@@ -54,7 +56,7 @@ foreign key (branchid) references branches(branchid);
 CREATE TABLE Transactions (
     TransactionID INT,
     TransactionDate DATE,
-    Amount DECIMAL(10,2),
+    Amount DECIMAL(10 , 2 ),
     TransactionType VARCHAR(20)
 );
 
@@ -74,7 +76,7 @@ CREATE TABLE Branches (
 
 alter table Branches add constraint Branch_id primary key (BranchID);
 
-
+desc branches;
 
 CREATE TABLE AccountBranches ( 
 		AssignmentDate DATE
@@ -82,8 +84,8 @@ CREATE TABLE AccountBranches (
 
 CREATE TABLE Loans (
     LoanID INT,
-    LoanAmount DECIMAL(10,2),
-    InterestRate DECIMAL(5,2),
+    LoanAmount DECIMAL(10 , 2 ),
+    InterestRate DECIMAL(5 , 2 ),
     StartDate DATE,
     EndDate DATE
 );
@@ -97,5 +99,19 @@ alter table transactions drop customerid;
 
 alter table Loans add constraint fk_customer_loans
 foreign key (customerid) references customers(customerID);
+
+select*from customers;
+
+insert into customers values (101,"Pradeep","Kumar","Pr@gmail.com","9578104345","1999-07-25");
+
+select*from accounts;
+
+INSERT INTO Accounts (AccountID, CustomerID, Account_Type, Balance)
+VALUES (201,101,'Savings',25000);
+
+DESCRIBE accounts;
+
+
+
 
 
