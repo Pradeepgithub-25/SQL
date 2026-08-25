@@ -190,4 +190,28 @@ from products;
 
 use sakila;
 
+select database();
 
+show tables;
+
+select*from city;
+
+select * from city
+where city like "%sam%";
+
+select * from language;
+
+select * from language
+where last_update like "%02%";
+
+select * from film;
+
+select * from film as f
+join language as l on l.language_id=f.language_id
+where f.length>100
+order by f.length desc;
+
+
+desc language;
+
+desc film;
