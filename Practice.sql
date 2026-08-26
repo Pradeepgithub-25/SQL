@@ -52,6 +52,9 @@ select * from products
 where category = 'Furniture' and Price >=5000;
 
 select * from products
+where category = 'Furniture' or Price >=5000;
+
+select * from products
 where category != 'Furniture';
 
 select * from products
