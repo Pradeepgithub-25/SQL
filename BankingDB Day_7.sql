@@ -53,9 +53,14 @@ use sakila;
 
 describe branches;
 
+-- customers
+
 alter table customers add DateofBirth Date;
 alter table customers add unique (email);
 alter table customers modify phone varchar(20);
+
+
+-- accounts
 
 ALTER TABLE Accounts ADD CONSTRAINT chk_MinBalance
 CHECK (Balance >= 1000);
@@ -72,16 +77,20 @@ foreign key (customerid) references customers(customerid);
 alter table accounts add constraint fk_branch_customers
 foreign key (branchid) references branches(branchid);
 
+-- transactions
 
 alter table Transactions add constraint trans_id primary key (TransactionID);
 alter table transactions add AccountID int;
 alter table transactions add constraint fk_account_transaction
 foreign key (accountid) references accounts(accountid);
 
+-- branches
 
 alter table Branches add constraint Branch_id primary key (BranchID);
 
 desc branches;
+
+-- Loans
 
 alter table Loans add constraint Loan_id primary key (LoanID);
 alter table Loans add customerID int;
@@ -95,8 +104,16 @@ insert into customers values (101,"Pradeep","Kumar","Pr@gmail.com","9578104345",
 
 select*from accounts;
 
-INSERT INTO Accounts (AccountID, CustomerID, Account_Type, Balance)
-VALUES (201,101,'Savings',25000);
+INSERT INTO Accounts (AccountID, CustomerID, Account_Type, Balance,branchid)
+VALUES (201,101,'Savings',25000,null);
+
+delete from accounts where accountid=201;
+
+set foreign_key_checks=0;
+
+set foreign_key_checks=1;
+
+
 
 DESCRIBE accounts;
 
@@ -105,6 +122,7 @@ where customerid=101;
 
 update accounts set balance = 30000
 where accountid=201;
+
 
 select * from customers where customerid=101;
 
@@ -126,3 +144,73 @@ VALUES
 (103, 'Amit', 'Patel', 'amit.patel@gmail.com', '9876500001', '1995-06-18',Null),
 (104, 'Sneha', 'Joshi', 'sneha.joshi@gmail.com', '9876500002', '1997-09-12',Null),
 (105, 'Rohan', 'Kulkarni', 'rohan.k@gmail.com', '9876500003', '1993-11-25',Null);
+
+-- Insert 4 Records into Accounts Table
+
+
+desc accounts;
+
+
+INSERT INTO Accounts
+(AccountID,CustomerID, Account_type,Balance,BranchID)
+VALUES
+(202, 102, 'Current', 40000,Null),
+(203, 103, 'Savings', 35000,null),
+(204, 104, 'Current', 60000,null),
+(205, 105, 'Savings', 45000,null);
+
+
+-- Insert 5 Records into Transactions Table
+INSERT INTO Transactions
+(TransactionID, AccountID, TransactionDate, Amount, TransactionType)
+VALUES
+(301, 201, '2025-05-10', 5000, 'Deposit'),
+(302, 202, '2025-05-11', 2500, 'Withdraw'),
+(303, 203, '2025-05-12', 10000, 'Deposit'),
+(304, 204, '2025-05-13', 3000, 'Withdraw'),
+(305, 205, '2025-05-14', 7000, 'Deposit');
+
+desc transactions;
+
+delete from transactions where transactionid=301;
+
+set foreign_key_checks=0;
+
+set foreign_key_checks=1;
+
+select * from transactions;
+
+INSERT INTO Branches
+(BranchID, BranchName, BranchAddress, BranchPhone)
+VALUES
+(1, 'Mumbai Branch', 'Andheri, Mumbai', '0221111111'),
+(2, 'Pune Branch', 'Shivaji Nagar, Pune', '0202222222'),
+(3, 'Nashik Branch', 'College Road, Nashik', '0253222222'),
+(4, 'Nagpur Branch', 'Sitabuldi, Nagpur', '0712333333'),
+(5, 'Navi Mumbai Branch', 'Vashi, Navi Mumbai', '0224444444');
+
+select * from branches;
+
+-- Insert 5 Records into Loans Table
+INSERT INTO Loans
+(LoanID, LoanAmount, InterestRate, StartDate, EndDate, CustomerID)
+VALUES
+(301, 500000, 8.50, '2025-01-15', '2030-01-15', 101),
+(302, 300000, 9.25, '2025-02-10', '2028-02-10', 102),
+(303, 750000, 8.75, '2025-03-20', '2032-03-20', 103),
+(304, 250000, 10.00, '2025-04-05', '2029-04-05', 104),
+(305, 1000000, 7.95, '2025-05-12', '2035-05-12', 105);
+
+select * from loans;
+
+select accountid,account_type,balance from accounts;
+
+select * from accounts
+where account_type= 'savings';
+
+select * from accounts
+where balance>25000;
+
+select * from accounts
+where balance between 5000 and 50000;
+
