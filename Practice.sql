@@ -37,6 +37,16 @@ insert into products values ('P001','Mobile','Electronics',25000),
 
 select * from products;
 
+select productname || 'cost around' || price from products;
+
+select cast(productid AS decimal) as new_price from products;
+
+insert into products values('P010',"book","yes",009);
+
+show char set;
+delete from products
+where productid ='0p001';
+
 update products set 
 category = 'Furniture'
 where Productid='P006';
